@@ -253,8 +253,8 @@ def OpsBaixadasFaccionista(datainicial, datafinal):
                             est.Movimento m      
                         WHERE 
                             codEmpresa = 1 
-                            and m.dataLcto >= '{datainicial}' 
-                            and m.dataLcto <= '{datafinal}' 
+                            and m.dataLcto >= DATEADD('{datainicial}', -40, CURRENT_TIMESTAMP)"
+                            and m.dataLcto <= DATEADD('{datafinal}', +20, CURRENT_TIMESTAMP)"
                             and operacao1 = '+' and numDocto like 'OP%'
                             AND codNatureza1 IN (5,7)
                     )  
