@@ -13,7 +13,7 @@ from models.configuracoes import empresaConfigurada
 from routes import routes_blueprint
 
 app = Flask(__name__) ## Aqui é criado essa funcao para iniciar o Projeto
-load_dotenv('/home/grupompl/Wms_Teste/ambiente.env')
+load_dotenv('/home/grupompl/WMS_Teste/ambiente.env')
 
 PORTA_APLICATION = os.getenv('PORTA_APLICATION')
 print(PORTA_APLICATION)
