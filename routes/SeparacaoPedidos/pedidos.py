@@ -219,9 +219,5 @@ def get_agrupar_pedido():
         # Obtém os dados do corpo da requisição (JSON)
         pedidos = PedidosClass.Pedido('1').agrupar_pedidos()
 
-        Endereco_det = pedidosModel.limparPedido(pedidos)
-        if Endereco_det == True:
-            return jsonify({'message': f'pedidos agrupados com sucesso', 'status': True}), 200
-        else:
-            return jsonify({'message': f'pedidos nao encontrados', 'status': False}), 200
+        return jsonify({'message': f'pedidos agrupados com sucesso', 'status': True}), 200
 
