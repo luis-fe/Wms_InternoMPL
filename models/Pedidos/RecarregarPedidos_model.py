@@ -119,6 +119,7 @@ def RecarregarPedidos(empresa):
 
             status = Verificando_RetornaxConferido(empresa)
             print(SugestoesAbertos2.columns)
+            PedidosClass.Pedido(empresa).agrupar_pedidos()
 
             return pd.DataFrame([{'Mensagem:':f'foram inseridos {tamanho} pedidos!','Excluido':f'{tamanhoExclusao} pedidos removidos pois ja foram faturados ',
                                   'Pedidos Atualizados para Retorna':f'{status}'}])
