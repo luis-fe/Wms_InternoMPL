@@ -267,11 +267,9 @@ class Pedido():
             self.__criar_agrupamentos
         )
 
-        # Atualiza cada linha na tabela (UPDATE)
-        # Atualiza cada linha na tabela (UPDATE)
-        with ConexaoPostgreMPL.conexao() as engine:
-            with engine.begin() as conn:
-                for _, row in consulta.iterrows():
+        with ConexaoPostgreMPL.conexao() as conn:
+            trans = conn.begin()
+            for _, row in consulta.iterrows():
                     sql_update = """
                         UPDATE "Reposicao"."Reposicao".filaseparacaopedidos
                         SET agrupamentopedido = :agrupamento
@@ -281,6 +279,11 @@ class Pedido():
                         text(sql_update),
                         {"agrupamento": row['agrupamentopedido'], "pedido": row['codigopedido']}
                     )
+
+            # Confirma todas as alterações
+            trans.commit()
+
+
 
         return consulta  # (opcional, mas útil pra devolver o resultado)
 
