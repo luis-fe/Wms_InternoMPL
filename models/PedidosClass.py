@@ -4,6 +4,7 @@ from sqlalchemy import text
 import ConexaoPostgreMPL
 from connection import ConexaoCSW
 import models.configuracoes.empresaConfigurada
+from psycopg2 import sql
 
 
 class Pedido():
@@ -268,20 +269,17 @@ class Pedido():
         )
 
         with ConexaoPostgreMPL.conexao() as conn:
-            trans = conn.begin()
-            for _, row in consulta.iterrows():
-                    sql_update = """
+            with conn.cursor() as cur:
+                for _, row in consulta.iterrows():
+                    query = sql.SQL("""
                         UPDATE "Reposicao"."Reposicao".filaseparacaopedidos
-                        SET agrupamentopedido = :agrupamento
-                        WHERE codigopedido = :pedido
-                    """
-                    conn.execute(
-                        text(sql_update),
-                        {"agrupamento": row['agrupamentopedido'], "pedido": row['codigopedido']}
-                    )
+                        SET agrupamentopedido = %s
+                        WHERE codigopedido = %s
+                    """)
+                    cur.execute(query, (row['agrupamentopedido'], row['codigopedido']))
 
             # Confirma todas as alterações
-            trans.commit()
+            conn.commit()
 
 
 
