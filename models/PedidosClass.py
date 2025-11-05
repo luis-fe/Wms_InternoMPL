@@ -268,17 +268,19 @@ class Pedido():
         )
 
         # Atualiza cada linha na tabela (UPDATE)
-        with conn.begin() as trans:
-            for _, row in consulta.iterrows():
-                sql_update = """
+        # Atualiza cada linha na tabela (UPDATE)
+        with ConexaoPostgreMPL.conexao() as engine:
+            with engine.begin() as conn:
+                for _, row in consulta.iterrows():
+                    sql_update = """
                         UPDATE "Reposicao"."Reposicao".filaseparacaopedidos
                         SET agrupamentopedido = :agrupamento
                         WHERE codigopedido = :pedido
                     """
-                conn.execute(
-                    text(sql_update),
-                    {"agrupamento": row['agrupamentopedido'], "pedido": row['codigopedido']}
-                )
+                    conn.execute(
+                        text(sql_update),
+                        {"agrupamento": row['agrupamentopedido'], "pedido": row['codigopedido']}
+                    )
 
         return consulta  # (opcional, mas útil pra devolver o resultado)
 
