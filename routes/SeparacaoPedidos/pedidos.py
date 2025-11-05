@@ -1,4 +1,4 @@
-from models import pedidosModel, imprimirEtiquetaModel
+from models import pedidosModel, imprimirEtiquetaModel, PedidosClass
 from models.Pedidos import FilaPedidos_model
 from flask import Blueprint, jsonify, request
 from functools import wraps
@@ -209,6 +209,19 @@ def put_limparPedido():
         Endereco_det = pedidosModel.limparPedido(pedidos)
         if Endereco_det == True:
             return jsonify({'message': f'pedidos limpados com sucesso', 'status': True}), 200
+        else:
+            return jsonify({'message': f'pedidos nao encontrados', 'status': False}), 200
+
+
+@pedidos_routes.route('/api/agrupar_pedido', methods=['get'])
+@token_required
+def get_agrupar_pedido():
+        # Obtém os dados do corpo da requisição (JSON)
+        pedidos = PedidosClass.Pedido('1').agrupar_pedidos()
+
+        Endereco_det = pedidosModel.limparPedido(pedidos)
+        if Endereco_det == True:
+            return jsonify({'message': f'pedidos agrupados com sucesso', 'status': True}), 200
         else:
             return jsonify({'message': f'pedidos nao encontrados', 'status': False}), 200
 

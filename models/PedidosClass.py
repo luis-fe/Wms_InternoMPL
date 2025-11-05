@@ -1,6 +1,6 @@
 import gc
 import pandas as pd
-
+from sqlalchemy import text
 import ConexaoPostgreMPL
 from connection import ConexaoCSW
 import models.configuracoes.empresaConfigurada
@@ -247,6 +247,45 @@ class Pedido():
                 del rows
                 gc.collect()
         return  PedidosSituacao
+
+    def agrupar_pedidos(self):
+        """Método público que agrupa os pedidos por cliente"""
+
+        sql_pedidos = """
+            SELECT
+                f.codigopedido,
+                f.codcliente
+            FROM
+                "Reposicao"."Reposicao".filaseparacaopedidos f
+        """
+
+        conn = ConexaoPostgreMPL.conexaoEngine()
+        consulta = pd.read_sql(sql_pedidos, conn)
+
+        # Cria a coluna agrupando todos os pedidos do mesmo cliente
+        consulta['agrupamentopedido'] = consulta.groupby('codcliente')['codigopedido'].transform(
+            self.__criar_agrupamentos
+        )
+
+        # Atualiza cada linha na tabela (UPDATE)
+        with conn.begin() as trans:
+            for _, row in consulta.iterrows():
+                sql_update = """
+                        UPDATE "Reposicao"."Reposicao".filaseparacaopedidos
+                        SET agrupamentopedido = :agrupamento
+                        WHERE codigopedido = :pedido
+                    """
+                conn.execute(
+                    text(sql_update),
+                    {"agrupamento": row['agrupamentopedido'], "pedido": row['codigopedido']}
+                )
+
+        return consulta  # (opcional, mas útil pra devolver o resultado)
+
+    def __criar_agrupamentos(self, grupo):
+        """Método privado auxiliar para concatenar os pedidos únicos"""
+        return '/'.join(sorted(set(grupo)))
+
 
 
 
