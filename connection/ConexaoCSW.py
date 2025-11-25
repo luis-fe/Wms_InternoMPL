@@ -138,6 +138,7 @@ def pesquisaTagCSW(codbarras):
 
 
 ####### TESTE NO INICIO DA APLICACAO,
+"""
 load_dotenv('/home/grupompl/Wms_InternoMPL/ambiente.env')
 host = os.getenv('CSW_HOST')
 senha = os.getenv('CSW_PASSWORD')
@@ -148,3 +149,4 @@ try:
     print(f' {teste}')
 except:
     print('caiu a conexao')
+    """

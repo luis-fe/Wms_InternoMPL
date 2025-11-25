@@ -258,8 +258,7 @@ def OpsBaixadasFaccionista(datainicial, datafinal):
                             and operacao1 = '+' and numDocto like 'OP%'
                             AND codNatureza1 IN (5,7)
                     )  
-                    and tiprem = 1 
-                    and r.codfase = 429
+                    and tiprem = 1  
                 """
 
     return opBaixadas

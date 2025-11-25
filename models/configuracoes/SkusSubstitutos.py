@@ -116,12 +116,11 @@ def SugerirEnderecoRestrito(numeroop,SKU ):
 
 
 def PesquisarSKUOP(numeroop,SKU):
-    conn = ConexaoPostgreMPL.conexao()
+    conn = ConexaoPostgreMPL.conexaoEngine()
 
-    consulta = pd.read_sql('select resticao from "off".filareposicaoof x '
-                           'where numeroop = %s and codreduzido = %s ', conn ,params=(numeroop,SKU))
+    consulta = pd.read_sql("""select resticao from "Reposicao".filareposicaoof x
+                           where numeroop = %s and codreduzido = %s """, conn ,params=(numeroop,SKU))
 
-    conn.close()
 
     if consulta.empty:
 
