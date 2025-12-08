@@ -212,7 +212,7 @@ def SituacaoEndereco(endereco,usuario, data):
 
             data = {
                 '2 - Endereco': f'{skus["enderco"][0]} ',
-                '3 - Status Endereco': f'{skus["Status Endereco"][0]} ',
+                '3 - Status Endereco': f'{skus["Status Endereco"][0]}',
                 '1 - Mensagem': f'{skus["Mensagem"][0]} ',
                 '4- Suituacao':f'{skus["Status do Saldo"][0]} ',
                 '5- Detalhamento dos Tags:':DetalhaSku.to_dict(orient='records')
