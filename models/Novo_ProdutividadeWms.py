@@ -386,12 +386,13 @@ class ProdutividadeWms:
 
         sql = """
                    select
-				distinct 
+								distinct 
                     usuario,
                     caixa,
                     "data",
                     hora_intervalo,
-                    "qtdPcs"
+                    "qtdPcs",
+                    "nome"
 			from
 				"Reposicao"."Reposicao"."ProdutividadeBiparTagCaixa" pbtc
 			join 	
