@@ -170,10 +170,10 @@ def BuscaResticaoSubstitutos():
         return consulta
 
 def FilaTags(rotina, datainico ,empresa):
-    xemp = "'"+empresa+"'"
+
     with ConexaoCSW.Conexao() as conn:
         with conn.cursor() as cursor_csw:
-            meuSql = """
+            sql = f"""
                     SELECT 
                         codBarrasTag AS codbarrastag, 
                         codNaturezaAtual AS codnaturezaatual, 
@@ -181,9 +181,14 @@ def FilaTags(rotina, datainico ,empresa):
                         codReduzido AS codreduzido,
                         (SELECT i.nome FROM cgi.Item i WHERE i.codigo = t.codReduzido) AS descricao, 
                         numeroop AS numeroop,
-                        (SELECT i2.codCor || '-' 
-                         FROM cgi.Item2 i2 
-                         WHERE i2.Empresa = 1 AND i2.codItem = t.codReduzido) || 
+                        (
+                            SELECT 
+                                i2.codCor || '-' 
+                            FROM 
+                                cgi.Item2 i2 
+                            WHERE 
+                                i2.Empresa = {str(empresa)} 
+                                AND i2.codItem = t.codReduzido) || 
                         (SELECT i2.descricao 
                          FROM tcp.SortimentosProduto i2 
                          WHERE i2.codEmpresa = 1 AND i2.codProduto = t.codEngenharia AND t.codSortimento = i2.codSortimento) AS cor,
@@ -195,20 +200,31 @@ def FilaTags(rotina, datainico ,empresa):
                     FROM 
                         tcr.TagBarrasProduto t 
                     WHERE 
-                        codEmpresa IN (%s) AND 
+                        codEmpresa IN ({str(empresa)}) AND 
                         codNaturezaAtual IN (5, 7, 54) AND 
                         situacao IN (3, 8)
-                    """ % xemp
+                    """
 
-            cursor_csw.execute(meuSql)
+            cursor_csw.execute(sql)
             colunas = [desc[0] for desc in cursor_csw.description]
             # Busca todos os dados
             rows = cursor_csw.fetchall()
             # Cria o DataFrame com as colunas
             df_tags = pd.DataFrame(rows, columns=colunas)
 
-            meuSql2 ="""SELECT top 200000 numeroOP as numeroop , totPecasOPBaixadas as totalop from tco.MovimentacaoOPFase WHERE codEmpresa = """+xemp+"""and codFase = 236 
-              order by numeroOP desc """
+            meuSql2 =f"""
+                        SELECT 
+                            top 200000 
+                                numeroOP as numeroop , 
+                                totPecasOPBaixadas as totalop 
+                        from 
+                            tco.MovimentacaoOPFase 
+                        WHERE 
+                            codEmpresa = {str(empresa)}
+                            and codFase = 449 
+                        order by 
+                            numeroOP desc 
+                        """
             cursor_csw.execute(meuSql2)
             colunas = [desc[0] for desc in cursor_csw.description]
             # Busca todos os dados
