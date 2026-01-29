@@ -235,8 +235,16 @@ def salvarStatus_Etapa1(rotina, ip,datahoraInicio,etapa):
 
     conn = ConexaoPostgreMPL.conexao()
 
-    consulta = 'update "Reposicao".configuracoes.controle_requisicao_csw set etapa1 = %s, "etapa1_tempo" = %s, "tempo_processamento(s)" = %s , "usoCpu1" = %s ' \
-               ' where  rotina = %s and inicio = %s and ip_origem = %s '
+    consulta = """
+                    update 
+                        "Reposicao".configuracoes.controle_requisicao_csw 
+                    set 
+                        etapa1 = %s, "etapa1_tempo" = %s, "tempo_processamento(s)" = %s , "usoCpu1" = %s
+                    where  
+                        rotina = %s 
+                        and inicio = %s 
+                        and ip_origem = %s 
+                """
 
     cursor = conn.cursor()
 

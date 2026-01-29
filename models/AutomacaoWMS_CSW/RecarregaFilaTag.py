@@ -304,15 +304,31 @@ def FilaTags(rotina, datainico ,empresa):
 
 
 
-def LerEPC2(xemp):
-    xemp = "'"+xemp+"'"
+def LerEPC2(empresa):
+
+    sql = f"""
+                select 
+                    epc.id as epc, 
+                    t.codBarrasTag as codbarrastag 
+                from 
+                    tcr.SeqLeituraFase  t
+                join 
+                    Tcr_Rfid.NumeroSerieTagEPC epc 
+                    on epc.codTag = t.codBarrasTag
+                WHERE 
+                    t.codEmpresa = {str(empresa)} 
+                    and (t.codTransacao = 3500 or t.codTransacao = 501)
+                    and (
+                            codLote like '24%' 
+                            or codLote like '25%' 
+                            or codLote like '26%'
+                            or codLote like '27%' 
+                        )
+    """
+
     with ConexaoCSW.Conexao() as conn:
 
-        consulta = pd.read_sql('select epc.id as epc, t.codBarrasTag as codbarrastag from tcr.SeqLeituraFase  t '
-                           'join Tcr_Rfid.NumeroSerieTagEPC epc on epc.codTag = t.codBarrasTag '
-                           'WHERE t.codEmpresa = '+xemp+' and (t.codTransacao = 3500 or t.codTransacao = 501) '
-                           'and (codLote like "23%" or  codLote like "24%" or codLote like "25%" '
-                           ' or codLote like "26%" or codLote like "27%" or codLote like "28%" or codLote like "29%" or codLote like "3%" )',conn)
+        consulta = pd.read_sql(sql,conn)
 
     return consulta
 
