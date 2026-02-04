@@ -14,7 +14,6 @@ from routes import routes_blueprint
 
 app = Flask(__name__) ## Aqui é criado essa funcao para iniciar o Projeto
 load_dotenv('/home/grupompl/WMS_Teste/Wms_InternoMPL/ambiente.env')
-
 PORTA_APLICATION = os.getenv('PORTA_APLICATION')
 print(PORTA_APLICATION)
 port = int(os.environ.get('PORT', PORTA_APLICATION)) # A porta escolhida para rodar a Aplicacao é a 5000.
