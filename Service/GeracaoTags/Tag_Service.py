@@ -30,7 +30,7 @@ class Tag_service:
 
         # Se houver mais tags, adicionamos os ORs
         if outras_tags:
-            sql_or = "".join([f" OR t.id [ '||{item}'" for item in outras_tags[:50]])
+            sql_or = "".join([f" OR t.id [ '||{item}'" for item in outras_tags[:300]])
             clausula_formatada += sql_or
 
         # 2. Buscar os EPC no CSW
