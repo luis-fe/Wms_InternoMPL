@@ -8,7 +8,7 @@ import os
 from functools import wraps # Pacote que ajuda a criar o token das Api's
 from models.Dashboards import  Relatorios, ReposicaoSku
 from dotenv import load_dotenv, dotenv_values
-import
+from Service.GeracaoTags import Tag_Service
 from models.configuracoes import empresaConfigurada
 from routes import routes_blueprint
 
@@ -132,5 +132,6 @@ if __name__ == '__main__':
 
     print(api_key)  # Exibe o valor da API Key
 
+    Tag_Service.Tag_service('1').atualizar_EPC_WMs()
 
     app.run(host='0.0.0.0', port=port) # A porta foi atribuida na variavel port
