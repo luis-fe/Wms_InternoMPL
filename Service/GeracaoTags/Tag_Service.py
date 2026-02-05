@@ -14,6 +14,7 @@ class Tag_service:
         # 1. Buscar Tags com Epc Vazio
 
         dF_tags_sem_epc = self.tag_model.obter_lista_tags_sem_epc()
+        dF_tags_sem_epc = str(tuple(dF_tags_sem_epc))
 
         #1.1 - Transformar no padrao
         print(dF_tags_sem_epc)
