@@ -132,6 +132,6 @@ if __name__ == '__main__':
 
     print(api_key)  # Exibe o valor da API Key
 
-    Tag_Service.Tag_service('1').atualizar_EPC_WMs_CSW()
+    #Tag_Service.Tag_service('1').atualizar_EPC_WMs_CSW()
 
     app.run(host='0.0.0.0', port=port) # A porta foi atribuida na variavel port

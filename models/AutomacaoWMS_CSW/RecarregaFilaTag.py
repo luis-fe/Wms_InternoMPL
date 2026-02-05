@@ -1,5 +1,7 @@
 import gc
 from psycopg2 import sql
+
+from Service.GeracaoTags import Tag_Service
 from connection import ConexaoCSW
 import pandas as pd
 import numpy
@@ -267,10 +269,10 @@ def FilaTags(rotina, datainico ,empresa):
     df_tags['Situacao'] = df_tags.apply(lambda row: 'Reposto' if not pd.isnull(row['usuario']) else 'Reposição não Iniciada', axis=1)
     etapa4 = controle.salvarStatus_Etapa4(rotina,'automacao', etapa3,'WMS: "Reposicao"."filareposicaoportag"   ')
 
-    epc = LerEPC2(empresa)
+    #epc = LerEPC2(empresa)
     etapa5 = controle.salvarStatus_Etapa5(rotina,'automacao', etapa4,'csw: ler os EPCS  ')
 
-    df_tags = pd.merge(df_tags, epc, on='codbarrastag', how='left')
+    #df_tags = pd.merge(df_tags, epc, on='codbarrastag', how='left')
     df_tags.rename(columns={'codbarrastag': 'codbarrastag','codEngenharia':'engenharia'
                             , 'numeroop':'numeroop'}, inplace=True)
     conn2.close()
@@ -297,8 +299,10 @@ def FilaTags(rotina, datainico ,empresa):
 
     print(df_tags)
     #try:
-    tamanho2 = 1000
-    ConexaoPostgreMPL.Funcao_Inserir(df_tags, tamanho2,'filareposicaoportag', 'append')
+    if tamanho > 0:
+        ConexaoPostgreMPL.Funcao_Inserir(df_tags, tamanho,'filareposicaoportag', 'append')
+        Tag_Service.Tag_service(str(empresa)).atualizar_EPC_WMs_CSW()
+
     AtualizarStatusFila()
 
 
