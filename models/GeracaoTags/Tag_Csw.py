@@ -21,6 +21,7 @@ class Tag_Csw():
         FROM 
             Tcr_Rfid.NumeroSerieEPCTag t
         WHERE 
+            t.id [ '||99999999999999999999'
             {clausulaTags}
         """
 
