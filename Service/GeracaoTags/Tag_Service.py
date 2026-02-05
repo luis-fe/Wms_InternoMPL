@@ -1,4 +1,6 @@
 from models.GeracaoTags.Tag import Tag
+from models.GeracaoTags.Tag_Csw import Tag_Csw
+
 class Tag_service:
     """Responsável pelo gerenciamento e consulta de Tags no WMS."""
 
@@ -6,6 +8,7 @@ class Tag_service:
         self.cod_empresa = cod_empresa
 
         self.tag_model = Tag(self.cod_empresa)
+        self.tag_Csw_service = Tag_Csw(self.cod_empresa)
 
 
     def atualizar_EPC_WMs_CSW(self):
@@ -22,7 +25,11 @@ class Tag_service:
         # Adicionamos o início da string
         resultado = f"   {sql_clause}"
 
-        print(resultado)
+        #2. Buscar os EpC no CSW
+        dF_tags_EPC_csw = self.tag_Csw_service.filtar_epc_csw(resultado)
+
+
+        print(dF_tags_EPC_csw)
 
 
         #2 - Buscar EPC das tags
