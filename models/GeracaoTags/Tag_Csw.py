@@ -20,7 +20,7 @@ class Tag_Csw():
         FROM 
             Tcr_Rfid.NumeroSerieEPCTag t
         WHERE 
-            t.id [ '||99999999999999999999' {clausulaTags}
+           {clausulaTags}
         """.strip()  # O .strip() remove espaços em branco extras no fim que podem confundir o JDBC
         print(sql)
 
