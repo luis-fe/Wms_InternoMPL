@@ -40,7 +40,8 @@ class Tag_service:
         print(dF_tags_EPC_csw)
 
 
-        #2 - Buscar EPC das tags
+        #2 - Atualizar no WMS os epc
+        self.tag_model.update_epc_fila(dF_tags_EPC_csw)
 
 
 
