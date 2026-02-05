@@ -8,16 +8,25 @@ class Tag_service:
         self.tag_model = Tag(self.cod_empresa)
 
 
-    def atualizar_EPC_WMs(self):
+    def atualizar_EPC_WMs_CSW(self):
         '''Metodo responsavel por atualizar os EPCs do WMS'''
 
         # 1. Buscar Tags com Epc Vazio
 
         dF_tags_sem_epc = self.tag_model.obter_lista_tags_sem_epc()
-        dF_tags_sem_epc = str(tuple(dF_tags_sem_epc))
-
         #1.1 - Transformar no padrao
-        print(dF_tags_sem_epc)
+
+        # Criamos as cláusulas individuais e as juntamos com o OR
+        sql_clause = "\n   OR ".join([f"t.id [ '||{item}'" for item in dF_tags_sem_epc])
+
+        # Adicionamos o início da string
+        resultado = f"   {sql_clause}"
+
+        print(resultado)
+
+
+        #2 - Buscar EPC das tags
+
 
 
 
