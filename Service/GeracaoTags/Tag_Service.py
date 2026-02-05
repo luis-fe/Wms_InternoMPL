@@ -10,24 +10,32 @@ class Tag_service:
         self.tag_model = Tag(self.cod_empresa)
         self.tag_Csw_service = Tag_Csw(self.cod_empresa)
 
-
     def atualizar_EPC_WMs_CSW(self):
         '''Metodo responsavel por atualizar os EPCs do WMS'''
 
-        # 1. Buscar Tags com Epc Vazio
-
+        # 1. Buscar Tags com Epc Vazio (Supondo que retorne uma lista de strings)
         dF_tags_sem_epc = self.tag_model.obter_lista_tags_sem_epc()
-        #1.1 - Transformar no padrao
 
-        # Criamos as cláusulas individuais e as juntamos com o OR
-        sql_clause = "\n   OR ".join([f"t.id [ '||{item}'" for item in dF_tags_sem_epc])
+        if not dF_tags_sem_epc:
+            print("Nenhuma tag sem EPC encontrada.")
+            return
 
-        # Adicionamos o início da string
-        resultado = f"   {sql_clause}"
+        # 1.1 - Montar a cláusula SQL corretamente
+        # Usamos o primeiro elemento para iniciar e os demais com OR
+        primeira_tag = dF_tags_sem_epc[0]
+        outras_tags = dF_tags_sem_epc[1:]
 
-        #2. Buscar os EpC no CSW
-        dF_tags_EPC_csw = self.tag_Csw_service.filtar_epc_csw(resultado)
+        # Começamos a string sem o OR no início
+        clausula_formatada = f"t.id [ '||{primeira_tag}'"
 
+        # Se houver mais tags, adicionamos os ORs
+        if outras_tags:
+            sql_or = "".join([f" OR t.id [ '||{item}'" for item in outras_tags])
+            clausula_formatada += sql_or
+
+        # 2. Buscar os EPC no CSW
+        # Passamos apenas a parte do filtro. O seu service deve colocar isso dentro do WHERE
+        dF_tags_EPC_csw = self.tag_Csw_service.filtar_epc_csw(clausula_formatada)
 
         print(dF_tags_EPC_csw)
 
