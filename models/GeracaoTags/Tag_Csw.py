@@ -13,7 +13,6 @@ class Tag_Csw():
     def filtar_epc_csw(self, clausulaTags : str ):
         '''Metodo que obtem do ERP CSW os Epc's das tags '''
 
-
         sql = f"""
         SELECT 
             SUBSTRING(t.id, CHARINDEX('||', t.id) + 2, 299) AS codtag,
@@ -21,8 +20,7 @@ class Tag_Csw():
         FROM 
             Tcr_Rfid.NumeroSerieEPCTag t
         WHERE 
-            t.id [ '||99999999999999999999'
-            {clausulaTags}
+            t.id [ '||99999999999999999999' {clausulaTags}
         """
         print(sql)
 
