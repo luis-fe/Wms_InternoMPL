@@ -24,6 +24,7 @@ class Tag_Csw():
             t.id [ '||99999999999999999999'
             {clausulaTags}
         """
+        print(sql)
 
 
         with ConexaoCSW.ConexaoInternoMPL() as conn:
