@@ -52,7 +52,7 @@ def AtualizarTagsEstoque():
     # Obtém os dados do corpo da requisição (JSON)
     IntervaloAutomacao = request.args.get('IntervaloAutomacao', 15)
     empresa = request.args.get('empresa', '1')
-    n_epc_atualizar = request.args.get('n_epc_atualizar',50)
+    n_epc_atualizar = int(request.args.get('n_epc_atualizar',50))
 
     rotina = 'AtualizarTagsEstoque'
     client_ip = 'automacao'
