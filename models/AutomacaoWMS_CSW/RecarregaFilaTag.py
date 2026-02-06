@@ -282,6 +282,7 @@ def FilaTags(rotina, datainico ,empresa):
     df_tags.drop('sti_aterior', axis=1, inplace=True)
     df_tags.drop_duplicates(subset='codbarrastag', inplace=True)
     #df_tags['epc'] = df_tags['epc'].str.extract('\|\|(.*)').squeeze()
+
     tamanho = df_tags['codbarrastag'].size
     dataHora = obterHoraAtual()
     df_tags['DataHora'] = dataHora
