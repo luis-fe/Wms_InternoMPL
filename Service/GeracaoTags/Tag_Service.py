@@ -10,7 +10,7 @@ class Tag_service:
         self.tag_model = Tag(self.cod_empresa)
         self.tag_Csw_service = Tag_Csw(self.cod_empresa)
 
-    def atualizar_EPC_WMs_CSW(self):
+    def atualizar_EPC_WMs_CSW(self, n_epc_atualizar :int = 50):
         '''Metodo responsavel por atualizar os EPCs do WMS'''
 
         # 1. Buscar Tags com Epc Vazio (Supondo que retorne uma lista de strings)
@@ -30,7 +30,7 @@ class Tag_service:
 
         # Se houver mais tags, adicionamos os ORs
         if outras_tags:
-            sql_or = "".join([f" OR t.id [ '||{item}'" for item in outras_tags[:50]])
+            sql_or = "".join([f" OR t.id [ '||{item}'" for item in outras_tags[:n_epc_atualizar]])
             clausula_formatada += sql_or
 
         # 2. Buscar os EPC no CSW

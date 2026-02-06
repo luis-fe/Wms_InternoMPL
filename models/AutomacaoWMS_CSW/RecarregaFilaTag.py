@@ -171,7 +171,7 @@ def BuscaResticaoSubstitutos():
 
         return consulta
 
-def FilaTags(rotina, datainico ,empresa):
+def FilaTags(rotina, datainico ,empresa, n_epc_atualizar :int = 50):
 
     with ConexaoCSW.Conexao() as conn:
         with conn.cursor() as cursor_csw:
@@ -302,7 +302,10 @@ def FilaTags(rotina, datainico ,empresa):
     #try:
     if tamanho > 0:
         ConexaoPostgreMPL.Funcao_Inserir(df_tags, tamanho,'filareposicaoportag', 'append')
-        Tag_Service.Tag_service(str(empresa)).atualizar_EPC_WMs_CSW()
+        Tag_Service.Tag_service(str(empresa)).atualizar_EPC_WMs_CSW(n_epc_atualizar)
+
+    else:
+        Tag_Service.Tag_service(str(empresa)).atualizar_EPC_WMs_CSW(n_epc_atualizar)
 
     AtualizarStatusFila()
 

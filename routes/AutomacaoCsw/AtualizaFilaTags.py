@@ -52,6 +52,7 @@ def AtualizarTagsEstoque():
     # Obtém os dados do corpo da requisição (JSON)
     IntervaloAutomacao = request.args.get('IntervaloAutomacao', 15)
     empresa = request.args.get('empresa', '1')
+    n_epc_atualizar = request.args.get('n_epc_atualizar',50)
 
     rotina = 'AtualizarTagsEstoque'
     client_ip = 'automacao'
@@ -62,7 +63,7 @@ def AtualizarTagsEstoque():
 
     if tempo > limite:
             controle.InserindoStatus(rotina, client_ip, datainicio)
-            RecarregaFilaTag.FilaTags(rotina, datainicio, empresa)
+            RecarregaFilaTag.FilaTags(rotina, datainicio, empresa, n_epc_atualizar)
             RecarregaFilaTag.avaliacaoFila(rotina)
 
             controle.salvarStatus(rotina, client_ip, datainicio)
