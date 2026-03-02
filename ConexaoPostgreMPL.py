@@ -15,13 +15,14 @@ def conexao():
     db_password = os.getenv('POSTGRE_PASSWORD')
 
     if empresaConfigurada.EmpresaEscolhida() == '1':
-        host = "localhost"
+        db_host = os.getenv('POSTGRE_HOST')
     else:
-        host = "localhost"
+        db_host = "localhost"
 
     portbanco = "5432"
 
-    return psycopg2.connect(dbname=db_name, user=db_user, password=db_password, host=host, port=portbanco)
+
+    return psycopg2.connect(dbname=db_name, user=db_user, password=db_password, host=db_host, port=portbanco)
 
 def Funcao_Inserir (df_tags, tamanho,tabela, metodo):
     load_dotenv('/home/grupompl/Wms_InternoMPL/ambiente.env')

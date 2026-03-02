@@ -131,6 +131,7 @@ if __name__ == '__main__':
     api_key = os.getenv('CAMINHO')  # Troque por 'API_KEY' ou outro nome se necessário
 
     print(api_key)  # Exibe o valor da API Key
+    print(os.getenv('POSTGRE_HOST'))
 
     #Tag_Service.Tag_service('1').atualizar_EPC_WMs_CSW()
 
