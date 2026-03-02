@@ -217,12 +217,11 @@ class ReposicaoViaOFF():
     def consultaCaixa(self):
         '''Metodo utilizado para detalhar uma caixa em especifico '''
 
-        conn = ConexaoPostgreMPL.conexao()
+        conn = ConexaoPostgreMPL.conexaoEngine()
         consultarCAIXA = pd.read_sql(
             'select rq.codbarrastag , rq.codreduzido, rq.engenharia, rq.descricao, rq.natureza, rq."Ncarrinho", '
             'rq.codempresa, rq.cor, rq.tamanho, rq.numeroop, rq.usuario, rq."DataReposicao"  from "off".reposicao_qualidade rq  '
             " where rq.caixa = %s ", conn, params=(self.Ncaixa,))
-        conn.close()
         if consultarCAIXA.empty:
             return pd.DataFrame({'mensagem': ['caixa vazia'], 'codbarrastag': '', 'numeroop': '', 'status': True})
         else:
