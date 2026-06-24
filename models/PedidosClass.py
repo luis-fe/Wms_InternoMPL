@@ -165,17 +165,17 @@ class Pedido():
 
     def retirar_agrupamento(self, descricao_cliente):
 
-        sql = """
+        sql = f"""
                 update 
                     "Reposicao"."Reposicao".filaseparacaopedidos
                 set agrupamentopedido = codigopedido
-                where "desc_cliente" = %s
+                where "desc_cliente" like %{descricao_cliente}
         """
 
         with ConexaoPostgreMPL.conexao() as conn:
             with conn.cursor() as cur:
 
-                curr.execute(sql,(descricao_cliente))
+                curr.execute(sql)
                 conn.commit()
 
         return pd.DataFrame({'Mesagem':'Pedido Desagrupado com Sucesso','status':True})
