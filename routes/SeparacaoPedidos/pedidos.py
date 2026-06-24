@@ -145,7 +145,7 @@ def DELETE_ExcluirClientedesagruparPedido():
 def get_ClientedesagruparPedido():
     
     empresa = empresaConfigurada.EmpresaEscolhida()
-    lista_clientes = PedidosClass.Pedido().excluir_cliente_desagrupado(descricao_cliente)
+    lista_clientes = PedidosClass.Pedido().obter_clientes_desagrupados()
     # Obtém os nomes das colunas
     column_names = lista_clientes.columns
 
