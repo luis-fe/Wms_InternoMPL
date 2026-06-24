@@ -169,7 +169,7 @@ class Pedido():
                 update 
                     "Reposicao"."Reposicao".filaseparacaopedidos
                 set agrupamentopedido = codigopedido
-                where "desc_cliente" like %'{descricao_cliente}'
+                where "desc_cliente" like '%{descricao_cliente}%'
         """
 
         with ConexaoPostgreMPL.conexao() as conn:
