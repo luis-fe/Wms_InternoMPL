@@ -214,7 +214,7 @@ class Pedido():
 
             insert = """
             insert into "Reposicao"."Reposicao"."ClientesDesagrupado"
-            ('descricao_cliente') values (%s)
+            ("descricao_cliente") values (%s)
             """
 
             with ConexaoPostgreMPL.conexao() as conn:
