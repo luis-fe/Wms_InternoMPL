@@ -81,7 +81,7 @@ def post_desagruparPedido():
     datas = request.get_json()
     descricao_cliente = datas['descricao_cliente']
 
-    Endereco_det = pedidosModel.retirar_agrupamento(descricao_cliente)
+    Endereco_det = PedidosClass.Pedido().retirar_agrupamento(descricao_cliente)
 
     # Obtém os nomes das colunas
     column_names = Endereco_det.columns
