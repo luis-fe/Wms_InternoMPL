@@ -53,6 +53,7 @@ def get_FilaPedidosUsuario():
             pedidos_dict[column_name] = row[column_name]
         pedidos_data.append(pedidos_dict)
     return jsonify(pedidos_data)
+
 @pedidos_routes.route('/api/DetalharPedido', methods=['GET'])
 @token_required
 def get_DetalharPedido():
@@ -93,6 +94,70 @@ def post_desagruparPedido():
             end_dict[column_name] = row[column_name]
         end_data.append(end_dict)
     return jsonify(end_data)
+
+
+
+@pedidos_routes.route('/api/InserirClientedesagruparPedido', methods=['POST'])
+@token_required
+def post_InserirClientedesagruparPedido():
+    
+    datas = request.get_json()
+    descricao_cliente = datas['descricao_cliente']
+
+    Endereco_det = PedidosClass.Pedido().inserir_cliente_desagrupado(descricao_cliente)
+
+    # Obtém os nomes das colunas
+    column_names = Endereco_det.columns
+    # Monta o dicionário com os cabeçalhos das colunas e os valores correspondentes
+    end_data = []
+    for index, row in Endereco_det.iterrows():
+        end_dict = {}
+        for column_name in column_names:
+            end_dict[column_name] = row[column_name]
+        end_data.append(end_dict)
+    return jsonify(end_data)
+
+
+@pedidos_routes.route('/api/ExcluirClientedesagruparPedido', methods=['DELETE'])
+@token_required
+def DELETE_ExcluirClientedesagruparPedido():
+    
+    datas = request.get_json()
+    descricao_cliente = datas['descricao_cliente']
+
+    Endereco_det = PedidosClass.Pedido().excluir_cliente_desagrupado(descricao_cliente)
+
+    # Obtém os nomes das colunas
+    column_names = Endereco_det.columns
+    # Monta o dicionário com os cabeçalhos das colunas e os valores correspondentes
+    end_data = []
+    for index, row in Endereco_det.iterrows():
+        end_dict = {}
+        for column_name in column_names:
+            end_dict[column_name] = row[column_name]
+        end_data.append(end_dict)
+    return jsonify(end_data)
+
+
+
+@pedidos_routes.route('/api/getClientedesagruparPedido', methods=['GET'])
+@token_required
+def get_ClientedesagruparPedido():
+    
+    empresa = empresaConfigurada.EmpresaEscolhida()
+    lista_clientes = PedidosClass.Pedido().excluir_cliente_desagrupado(descricao_cliente)
+    # Obtém os nomes das colunas
+    column_names = lista_clientes.columns
+
+    # Monta o dicionário com os cabeçalhos das colunas e os valores correspondentes
+    lista_clientes_data = []
+    for index, row in lista_clientes.iterrows():
+        lista_clientes_dict = {}
+        for column_name in column_names:
+            lista_clientes_dict[column_name] = row[column_name]
+        lista_clientes_data.append(lista_clientes_dict)
+    return jsonify(lista_clientes_data)
+
 
 
 @pedidos_routes.route('/api/FilaPedidosClassificacao', methods=['GET'])

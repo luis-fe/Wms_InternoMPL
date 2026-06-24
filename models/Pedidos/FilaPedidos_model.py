@@ -7,6 +7,8 @@ import pandas as pd
 import numpy as np
 import datetime
 import pytz
+
+
 #import locale
 #from models import finalizacaoPedidoModel
 
@@ -19,6 +21,13 @@ def obterHoraAtual():
 
 def FilaPedidos(empresa):
     conn = ConexaoPostgreMPL.conexaoEngine()
+    
+    
+    
+    
+    
+    
+    
     pedido = pd.read_sql(
         """
         SELECT 

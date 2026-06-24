@@ -169,7 +169,8 @@ class Pedido():
                 update 
                     "Reposicao"."Reposicao".filaseparacaopedidos
                 set agrupamentopedido = codigopedido
-                where "desc_cliente" like '%{descricao_cliente}%'
+                where 
+                    "desc_cliente" like '%{descricao_cliente}%'
         """
 
         with ConexaoPostgreMPL.conexao() as conn:
@@ -179,6 +180,77 @@ class Pedido():
                 conn.commit()
 
         return pd.DataFrame([{'Mesagem':'Pedido Desagrupado com Sucesso','status':True}])
+
+    
+    def obter_clientes_desagrupados(self):
+
+        get = """
+                select
+                    distinct 
+                *
+                from
+                    "Reposicao"."Reposicao"."ClientesDesagrupado" cd
+        """
+
+        conn = ConexaoPostgreMPL.conexaoEngine()
+
+        consulta = pd.read_sql(get,conn)
+
+        return consulta
+
+    
+    def inserir_cliente_desagrupado(self, descricao_cliente):
+
+
+        # pesquisa se o cliente ja esta desagrupado:
+
+        self.retirar_agrupamento(descricao_cliente)
+
+        verifica = self.obter_clientes_desagrupados()
+        verifica = verifica[verifica['descricao_cliente']==descricao_cliente]
+
+        if verifica.empty :
+
+
+            insert = """
+            insert into "Reposicao"."Reposicao"."ClientesDesagrupado"
+            ('descricao_cliente') values (%s)
+            """
+
+            with ConexaoPostgreMPL.conexao() as conn:
+                with conn.cursor() as cur:
+
+                    cur.execute(insert,(descricao_cliente,))
+                    conn.commit()
+
+            return pd.DataFrame([{'Mensagem':'CLiente desagrupado com sucesso','status':True}])
+
+
+        else:
+
+            return pd.DataFrame([{'Mensagem':'CLiente Ja desagrupado','status':False}])
+
+    def excluir_cliente_desagrupado(self, descricao_cliente)
+
+        sql = f""""
+        delete from "Reposicao"."Reposicao"."ClientesDesagrupado"
+        where  "desc_cliente" like '%{descricao_cliente}%' 
+        """
+
+        with ConexaoPostgreMPL.conexao() as conn:
+                with conn.cursor() as cur:
+
+                    cur.execute(sql,(descricao_cliente,))
+                    conn.commit()
+
+        
+        return pd.DataFrame([{'Mensagem':'CLiente excluido do desagrupamento  com sucesso','status':True}])
+
+
+
+
+
+
 
 
 
