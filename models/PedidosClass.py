@@ -240,7 +240,7 @@ class Pedido():
         with ConexaoPostgreMPL.conexao() as conn:
                 with conn.cursor() as cur:
 
-                    cur.execute(sql,(descricao_cliente,))
+                    cur.execute(sql)
                     conn.commit()
 
         
