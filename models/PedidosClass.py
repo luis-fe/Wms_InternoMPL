@@ -178,7 +178,7 @@ class Pedido():
                 cur.execute(sql)
                 conn.commit()
 
-        return pd.DataFrame({'Mesagem':'Pedido Desagrupado com Sucesso','status':True})
+        return pd.DataFrame([{'Mesagem':'Pedido Desagrupado com Sucesso','status':True}])
 
 
 
