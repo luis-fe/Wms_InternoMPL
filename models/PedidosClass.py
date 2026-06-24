@@ -234,7 +234,7 @@ class Pedido():
 
         sql = f"""
         delete from "Reposicao"."Reposicao"."ClientesDesagrupado"
-        where  "desc_cliente" like '%{descricao_cliente}%' 
+        where  "descricao_cliente" like '%{descricao_cliente}%' 
         """
 
         with ConexaoPostgreMPL.conexao() as conn:
