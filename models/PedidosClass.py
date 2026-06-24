@@ -230,7 +230,21 @@ class Pedido():
 
             return pd.DataFrame([{'Mensagem':'CLiente Ja desagrupado','status':False}])
 
+    def excluir_cliente_desagrupado(self, descricao_cliente):
 
+        sql = f""""
+        delete from "Reposicao"."Reposicao"."ClientesDesagrupado"
+        where  "desc_cliente" like '%{descricao_cliente}%' 
+        """
+
+        with ConexaoPostgreMPL.conexao() as conn:
+                with conn.cursor() as cur:
+
+                    cur.execute(sql,(descricao_cliente,))
+                    conn.commit()
+
+        
+        return pd.DataFrame([{'Mensagem':'CLiente excluido do desagrupamento  com sucesso','status':True}])
 
 
 
