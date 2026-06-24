@@ -22,36 +22,34 @@ def obterHoraAtual():
 def FilaPedidos(empresa):
     conn = ConexaoPostgreMPL.conexaoEngine()
     
-    
-    
-    
-    
-    
-    
     pedido = pd.read_sql(
         """
-        SELECT 
-            f.codigopedido, 
-            f.vlrsugestao, 
-            f.codcliente, 
-            f.desc_cliente, 
-            f.cod_usuario, 
-            f.cidade, 
-            f.estado, 
-            f.datageracao, 
-            f.codrepresentante, 
-            f.desc_representante, 
-            f.desc_tiponota, 
-            f.condicaopgto, 
-            f.agrupamentopedido, 
-            f.situacaopedido, 
-            CASE 
-                WHEN f.obs = 'REVISAR' THEN COALESCE(f.prioridade, '') || '-' || f.obs
-                ELSE f.prioridade 
-            END AS prioridade, 
-            f.obs 
-        FROM 
-            "Reposicao".filaseparacaopedidos f;
+SELECT 
+    f.codigopedido, 
+    f.vlrsugestao, 
+    f.codcliente, 
+    f.desc_cliente, 
+    f.cod_usuario, 
+    f.cidade, 
+    f.estado, 
+    f.datageracao, 
+    f.codrepresentante, 
+    f.desc_representante, 
+    f.desc_tiponota, 
+    f.condicaopgto, 
+        CASE 
+        WHEN f.desc_cliente IN (SELECT descricao_cliente FROM "Reposicao"."Reposicao"."ClientesDesagrupado") 
+        THEN f.codigopedido
+        ELSE f.agrupamentopedido 
+    END AS agrupamentopedido, 
+    f.situacaopedido, 
+    CASE 
+        WHEN f.obs = 'REVISAR' THEN COALESCE(f.prioridade, '') || '-' || f.obs
+        ELSE f.prioridade 
+    END AS prioridade, 
+    f.obs 
+FROM 
+    "Reposicao".filaseparacaopedidos f;
         """
          , conn)
     naturezaPedido = pd.read_sql(
