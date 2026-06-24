@@ -247,6 +247,24 @@ class Pedido():
         return pd.DataFrame([{'Mensagem':'CLiente excluido do desagrupamento  com sucesso','status':True}])
 
 
+    def listar_clientes_atuais_pedidos(self,):
+
+        sql = """
+        select
+            distinct desc_cliente
+        from
+            "Reposicao"."Reposicao".filaseparacaopedidos f 
+            order by desc_cliente asc 
+        """
+
+
+        conn = ConexaoPostgreMPL.conexaoEngine()
+
+        consulta = pd.read_sql(sql,conn)
+
+        return consulta
+
+
 
 
 

@@ -159,6 +159,24 @@ def get_ClientedesagruparPedido():
     return jsonify(lista_clientes_data)
 
 
+@pedidos_routes.route('/api/listar_clientes_atuais_pedidos', methods=['GET'])
+@token_required
+def get_listar_clientes_atuais_pedidos():
+    
+    empresa = empresaConfigurada.EmpresaEscolhida()
+    lista_clientes = PedidosClass.Pedido().listar_clientes_atuais_pedidos()
+    # Obtém os nomes das colunas
+    column_names = lista_clientes.columns
+
+    # Monta o dicionário com os cabeçalhos das colunas e os valores correspondentes
+    lista_clientes_data = []
+    for index, row in lista_clientes.iterrows():
+        lista_clientes_dict = {}
+        for column_name in column_names:
+            lista_clientes_dict[column_name] = row[column_name]
+        lista_clientes_data.append(lista_clientes_dict)
+    return jsonify(lista_clientes_data)
+
 
 @pedidos_routes.route('/api/FilaPedidosClassificacao', methods=['GET'])
 @token_required
