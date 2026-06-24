@@ -232,7 +232,7 @@ class Pedido():
 
     def excluir_cliente_desagrupado(self, descricao_cliente):
 
-        sql = f""""
+        sql = f"""
         delete from "Reposicao"."Reposicao"."ClientesDesagrupado"
         where  "desc_cliente" like '%{descricao_cliente}%' 
         """
