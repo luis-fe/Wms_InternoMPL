@@ -175,7 +175,7 @@ class Pedido():
         with ConexaoPostgreMPL.conexao() as conn:
             with conn.cursor() as cur:
 
-                curr.execute(sql)
+                cur.execute(sql)
                 conn.commit()
 
         return pd.DataFrame({'Mesagem':'Pedido Desagrupado com Sucesso','status':True})
