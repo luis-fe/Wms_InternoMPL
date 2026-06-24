@@ -72,6 +72,29 @@ def get_DetalharPedido():
             end_dict[column_name] = row[column_name]
         end_data.append(end_dict)
     return jsonify(end_data)
+
+
+@pedidos_routes.route('/api/desagruparPedido', methods=['POST'])
+@token_required
+def post_desagruparPedido():
+    
+    datas = request.get_json()
+    descricao_cliente = datas['descricao_cliente']
+
+    Endereco_det = pedidosModel.retirar_agrupamento(descricao_cliente)
+
+    # Obtém os nomes das colunas
+    column_names = Endereco_det.columns
+    # Monta o dicionário com os cabeçalhos das colunas e os valores correspondentes
+    end_data = []
+    for index, row in Endereco_det.iterrows():
+        end_dict = {}
+        for column_name in column_names:
+            end_dict[column_name] = row[column_name]
+        end_data.append(end_dict)
+    return jsonify(end_data)
+
+
 @pedidos_routes.route('/api/FilaPedidosClassificacao', methods=['GET'])
 @token_required
 def get_FilaPedidosClassificacao():

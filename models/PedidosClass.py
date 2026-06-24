@@ -163,6 +163,28 @@ class Pedido():
         return  SugestoesAbertos
 
 
+    def retirar_agrupamento(self, descricao_cliente):
+
+        sql = """
+                update 
+                    "Reposicao"."Reposicao".filaseparacaopedidos
+                set agrupamentopedido = codigopedido
+                where "desc_cliente" = %s
+        """
+
+        with ConexaoPostgreMPL.conexao() as conn:
+            with conn.cursor() as cur:
+
+                curr.execute(sql,(descricao_cliente))
+                conn.commit()
+
+        return pd.DataFrame({'Mesagem':'Pedido Desagrupado com Sucesso','status':True})
+
+
+
+
+
+
     def __sugestoesPedidosMKTo_ErpCsw(self):
         '''Metodo PRIVADO que busca no ERP do CSW as Pedidos de Marketing '''
 
